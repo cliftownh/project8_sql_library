@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1 Server Error
-  p Sorry! There was an unexpected error on the server.
+  if status === 404
+    h1= message
+    p Sorry! We couldn't find the page you were looking for.
+  else
+    h1 Server Error
+    p Sorry! There was an unexpected error on the server.
+  br
+  p
+    a.button(href='/books') Home

@@ -9,6 +9,7 @@ var methodOverride = require('method-override')
 
 var indexRoute = require('./routes/index');
 var booksRoute = require('./routes/books');
+// var newRoute   = require('')
 
 var app = express();
 
@@ -30,7 +31,7 @@ app.use('/books', booksRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  var err = new Error('Page Not Found');
   err.status = 404;
   next(err);
 });
@@ -44,6 +45,7 @@ if (app.get('env') === 'development') {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
+      status: err.status,
       error: err
     });
   });
@@ -55,9 +57,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
+    status: err.status,
     error: {}
   });
 });
-
 
 module.exports = app;
