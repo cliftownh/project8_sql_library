@@ -1,14 +1,30 @@
-var express = require('express');
-var router = express.Router();
-var Book = require("../models").Book;
+const express = require('express');
+const router = express.Router();
+const { Book } = require('../models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 /* GET books listing. */
 router.get('/', function(req, res, next) {
   Book.findAll({order: [["id"]]}).then(function(books){
-    res.render('books/index', {books: books, title: 'Library Books' });
+    res.render('books/index', { books: books, title: 'Library Books' });
   }).catch(function(err){
     res.sendStatus(500);
   });
+});
+
+router.get('/search', (req, res, next) => {
+  let { term } = req.query;
+  let { category } = req.query;
+  
+  // console.log(req.query.term, req.query.category);
+
+  Book.findAll({ where: { [category]: { [Op.like]: `%${term}%` } }})
+    .then(books => res.render('books/index', { books: books, title: 'Search Results' }))
+    .catch((error) => {
+      next(error);
+      console.log(error.message);
+      });
 });
 
 /* POST create book. */
@@ -78,7 +94,7 @@ router.post('/new', function(req, res, next) {
       res.redirect("/books");    
     }).catch(function(err){
       if (err.name === "SequelizeValidationError") {
-        var book = Book.build(req.body);
+        let book = Book.build(req.body);
         book.id = req.params.id;
   
         res.render("books/update", {
@@ -107,6 +123,15 @@ router.post('/new', function(req, res, next) {
     }).catch(function(err){
       res.sendStatus(500);
     });
-  });  
+  });
+
+  // router.get('/search', (req, res) => {
+  //   let { term } = req.query;
+  //   let { category } = req.query;
+
+  //   Book.findAll({ where: { [category]: { [Op.like]: `%${term}%` } } })
+  //     .then(books => res.render('books/index', { books: books, title: 'Search Results' }))
+  //     .catch(err => res.sendStatus(500));
+  // });
 
 module.exports = router;

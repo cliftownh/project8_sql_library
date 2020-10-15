@@ -1,0 +1,8 @@
+form#search-form(action="/books/search" method="get")
+    select#category(name="category")
+        option(value="title" selected) Title
+        option(value="author") Author
+        option(value="genre") Genre
+        option(value="year") Year
+    input#search-input(type="text" name="term" placeholder="Search...")
+    input(type="submit", value="Search")

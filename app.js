@@ -1,17 +1,17 @@
-var express = require('express');
-var path = require('path');
-// var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-// var connect = require('connect')
-var methodOverride = require('method-override')
+const express = require('express');
+const path = require('path');
+// const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+// const connect = require('connect')
+const methodOverride = require('method-override')
 
-var indexRoute = require('./routes/index');
-var booksRoute = require('./routes/books');
-// var newRoute   = require('')
+const indexRoute = require('./routes/index');
+const booksRoute = require('./routes/books');
+// const newRoute   = require('')
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
